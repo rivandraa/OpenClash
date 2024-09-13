@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: Clash API
+  description: Dokumentasi untuk Clash API yang berjalan di Linux ARM64.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Server lokal untuk pengembangan
+paths:
+  /status:
+    get:
+      summary: Mendapatkan status aplikasi
+      responses:
+        '200':
+          description: Status aplikasi berhasil didapatkan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "running"
+                  uptime:
+                    type: string
+                    example: "48h"
+  /config:
+    get:
+      summary: Mendapatkan konfigurasi aplikasi
+      responses:
+        '200':
+          description: Konfigurasi berhasil didapatkan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  config:
+                    type: object
+                    additionalProperties: true
+        '404':
+          description: Konfigurasi tidak ditemukan
+  /config:
+    post:
+      summary: Mengupdate konfigurasi aplikasi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Konfigurasi berhasil diupdate
+        '400':
+          description: Permintaan tidak valid
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
